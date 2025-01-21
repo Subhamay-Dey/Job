@@ -37,9 +37,9 @@ class UploadController {
         .getPublicUrl(filename);
 
       fs.unlinkSync(filePath);
-      const uploadedFile = {
-        filename,
-        publicUrl,
+      const upload = {
+        filename: filename,
+        publicUrl: publicUrl,
         orinalName: file.originalname,
       }
       const Parsepdf = await PdfParsing.parsePdf(req.file?.buffer!)
