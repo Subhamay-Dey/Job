@@ -1,6 +1,7 @@
 import pdf from "pdf-parse";
 
 class PdfParsing {
+
   static async parsePdf(pdfBuffer: Buffer): Promise<string> {
     try {
       const data = await pdf(pdfBuffer);

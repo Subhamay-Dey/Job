@@ -5,6 +5,4 @@ import PdfParsing from "../Controllers/PdfParsing.js";
 
 export const router = Router();
 
-router.post("/upload", upload.single("file"), UploadController.upload)
-
-router.post("/parse", upload.single("file"), PdfParsing.parsePdf); 
+router.post("/upload", upload.single("file"), UploadController.upload, PdfParsing.parsePdf);

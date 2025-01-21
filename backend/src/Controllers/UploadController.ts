@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import fs from "fs";
 import { supabase } from "../supabase/supabase.js";
+import PdfParsing from "./PdfParsing.js";
 
 class UploadController {
   static async upload(req: Request, res: Response) {
@@ -36,11 +37,13 @@ class UploadController {
         .getPublicUrl(filename);
 
       fs.unlinkSync(filePath);
+      const uploadedFile = {
+        filename,
+        publicUrl,
+        orinalName: file.originalname,
+      }
+      const Parsepdf = await PdfParsing.parsePdf(req.file?.buffer!)
 
-      return res.status(200).json({
-        message: "File uploaded successfully",
-        fileUrl: publicUrl,
-      });
     } catch (error) {
       console.error("Unexpected Error:", error);
       res.status(500).json({ error: "An unexpected error occurred" });
