@@ -6,7 +6,7 @@ class PdfParsing {
         const data = await pdf(pdfBuffer);
         return data.text;
     } catch (error) {
-        throw new Error('Error while parsing pdf');
+        console.log(error);
     }
   }
 }
