@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import fs from "fs";
-import { supabase } from "../supabase/supabaseClient.js";
+import { supabase } from "../supabase/supabase.js";
 
 interface File {
   buffer: Buffer;
