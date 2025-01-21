@@ -5,7 +5,7 @@ import { supabase } from "../supabase/supabase.js";
 class UploadController {
   static async upload(req: Request, res: Response) {
     try {
-      const file = req.file ;
+      const file = req.file;
       const filename = `${Date.now()}-${file.originalname}`;
       const filePath = file.path;
 
@@ -25,21 +25,22 @@ class UploadController {
           .json({ error: "Failed to upload file to Supabase" });
       }
 
-      const { data:publicURL, error:publicURLError } = supabase.storage
+      const { data: publicURL} = supabase.storage
         .from("pdf")
         .getPublicUrl(filename);
 
-        if (publicURLError) {
-          console.log("Supabase Public URL error:", publicURLError.message);
-          return res
-            .status(500)
-            .json({ error: "Failed to get public URL from Supabase" });
-        }
+      // if (publicURLError) {
+      //   console.log("Supabase Public URL error:", publicURLError.message);
+      //   return res
+      //     .status(500)
+      //     .json({ error: "Failed to get public URL from Supabase" });
+      // }
 
-        fs.unlinkSync(filePath);
+      fs.unlinkSync(filePath);
 
-        return res.status(200).json({message: "File uploaded successfully", fileUrl: publicURL });
-
+      return res
+        .status(200)
+        .json({ message: "File uploaded successfully", fileUrl: publicURL });
     } catch (error) {
       console.log(error);
       res.status(500).send(error);
