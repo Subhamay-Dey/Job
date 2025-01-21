@@ -2,17 +2,10 @@ import { Request, Response } from "express";
 import fs from "fs";
 import { supabase } from "../supabase/supabase.js";
 
-interface File {
-  buffer: Buffer;
-  mimetype: string;
-  originalname: string;
-  path: string;
-}
-
 class UploadController {
   static async upload(req: Request, res: Response) {
     try {
-      const file: File = req.file;
+      const file = req.file ;
       const filename = `${Date.now()}-${file.originalname}`;
       const filePath = file.path;
 
@@ -32,9 +25,9 @@ class UploadController {
           .json({ error: "Failed to upload file to Supabase" });
       }
 
-      const { data:publicURL, error: publicURLError } = supabase.storage
+      const { data:publicURL, error:publicURLError } = supabase.storage
         .from("pdf")
-        .getPublicUrl(`upload/${filename}`);
+        .getPublicUrl(filename);
 
         if (publicURLError) {
           console.log("Supabase Public URL error:", publicURLError.message);
