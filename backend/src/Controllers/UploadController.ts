@@ -49,7 +49,11 @@ class UploadController {
         data: {
           text: Parsepdf,
           file : upload,
-          user: req.user?.id
+          user: {
+            connect: {
+              id: userId!
+            }
+          }
         }
       })
 
