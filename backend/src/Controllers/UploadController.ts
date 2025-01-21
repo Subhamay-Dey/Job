@@ -51,7 +51,7 @@ class UploadController {
           file : upload,
           user: {
             connect: {
-              id: userId!
+              id: req.user?.id!,
             }
           }
         }

@@ -16,7 +16,7 @@ datasource db {
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
-  name      String  @db.VarChar(191)
+  username  String   @unique @db.VarChar(191)
   oauthId   String
   count     Int     @default(0)
   createdAt DateTime @default(now())
@@ -27,11 +27,12 @@ model User {
 }
 
 model File {
-  id       Int      @id @default(autoincrement())
+  id       String      @id @default(uuid())
   file     Json
   text     String
   user     User     @relation(fields: [userId], references: [id])
   userId   Int
   createdAt DateTime @default(now())
+  
   @@map("files")
 }
