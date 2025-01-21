@@ -20,7 +20,18 @@ model User {
   oauthId   String
   count     Int     @default(0)
   createdAt DateTime @default(now())
+  files     File[]
 
   @@index([createdAt])
   @@map("users")
+}
+
+model File {
+  id       Int      @id @default(autoincrement())
+  file     Json?
+  text     String?
+  user     User     @relation(fields: [userId], references: [id])
+  userId   Int
+  createdAt DateTime @default(now())
+  @@map("files")
 }
