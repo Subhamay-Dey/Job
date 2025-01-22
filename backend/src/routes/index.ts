@@ -1,13 +1,54 @@
 import { Router } from "express";
-import UploadController from "../Controllers/UploadController.js";
+// import UploadController from "../Controllers/UploadController.js";
 import upload from "../middleware/multerConfig.js";
 import PdfParsing from "../Controllers/PdfParsing.js";
 import prisma from "../prisma/index.js";
 import { nlpService } from "../Controllers/NlpController.js";
+import { uploadFile } from "../Controllers/UploadController.js";
 
 export const router = Router();
 
-router.post("/upload", upload.single("file"), UploadController.upload, PdfParsing.parsePdf);
+// router.post("/upload", upload.single("file"), UploadController.upload, PdfParsing.parsePdf);
+
+router.post('/upload' ,upload.single('file') ,async(req:any,res) => {
+    const userId = req.userId;
+    try {
+        if(!req.file){
+            res.status(400).json({
+                message: "No file provided"
+            })
+        }
+        if(!req.file?.mimetype || !req.file.mimetype.includes('pdf')){
+            res.status(400).json({
+                message: "Please uplaod a pdf file"
+            })
+        }
+
+        const uploadedFile = await uploadFile(req.file!);
+        const parsedText = await PdfParsing.parsePdf(req.file?.buffer!)
+
+        const newData = await prisma.file.create({
+            data:{
+                text: parsedText!,
+                file:uploadedFile,
+                user:{
+                    connect:{
+                        id: userId
+                    }
+                }
+            }
+        })
+
+        res.status(200).json({
+            data: {
+                savedData: newData
+            },
+            message: "Upload service is working sucessfully"
+        })
+    } catch (error) {   
+        console.log("Error: ", error);
+    }
+})
 
 router.get('/nlp/:dataId', async(req:any,res) => {
     const {dataId} = req.params;
