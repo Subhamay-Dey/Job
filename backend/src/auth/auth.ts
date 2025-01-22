@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { SigniInSchema, SignupSchema } from "../../types/user";
+import { SigniInSchema, SignupSchema } from "../validations/validation";
 import prisma from "../prisma";
 
 export const JWT_PASSWORD = "jkjkdsjkdsjkd67%$$%%^&*7889"
