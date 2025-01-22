@@ -5,6 +5,7 @@ import { nlpService } from "../Controllers/NlpController.js";
 import { uploadFile } from "../Controllers/UploadController.js";
 import multer from "multer";
 import { authMiddleware } from "../middleware/authmiddleware.js";
+import { signIn, signUp } from "../auth/auth.js";
 
 export const router = Router();
 
@@ -62,7 +63,7 @@ router.post('/upload', authMiddleware, upload.single('file'), async (req: any, r
 });
 
 // NLP route
-router.get('/nlp/:dataId', async (req: any, res) => {
+router.get('/nlp/:dataId', authMiddleware, async (req: any, res) => {
     const { dataId } = req.params;
     const userId = req.userId;  // Assuming this is set from a middleware or authentication
     try {
@@ -102,4 +103,16 @@ router.get('/nlp/:dataId', async (req: any, res) => {
             message: "Internal server error"
         });
     }
+});
+
+router.post("/signup",signUp)
+
+router.post("/signin",signIn)
+
+router.get("/logout", (req, res) => {
+    //invalidating the token by clearing the cookie
+    res.clearCookie("token");
+    res.status(200).json({
+        message: "User logged out successfully"
+    })
 });
