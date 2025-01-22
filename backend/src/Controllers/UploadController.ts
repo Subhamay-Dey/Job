@@ -81,7 +81,7 @@ interface UploadFile {
       const fileName = `${Date.now()}-${file.originalname}`;  
       
       const { data, error } = await supabase.storage  
-        .from('pdfs')  
+        .from('Pdf')  
         .upload(fileName, file.buffer, {  
           contentType: file.mimetype,  
           cacheControl: '3600'
@@ -95,7 +95,7 @@ interface UploadFile {
       }  
   
       const { data: { publicUrl } } = supabase.storage  
-        .from('pdfs')  
+        .from('Pdf')  
         .getPublicUrl(fileName);  
   
       return {  

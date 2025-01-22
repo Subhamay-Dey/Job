@@ -1,12 +1,16 @@
 import { Router } from "express";
 // import UploadController from "../Controllers/UploadController.js";
-import upload from "../middleware/multerConfig.js";
-import PdfParsing from "../Controllers/PdfParsing.js";
+// import upload from "../middleware/multerConfig.js";
+import { extractTextFromPdf } from "../Controllers/PdfParsing.js";
 import prisma from "../prisma/index.js";
 import { nlpService } from "../Controllers/NlpController.js";
 import { uploadFile } from "../Controllers/UploadController.js";
+import multer from "multer";
 
 export const router = Router();
+
+const upload = multer({storage: multer.memoryStorage()})
+
 
 // router.post("/upload", upload.single("file"), UploadController.upload, PdfParsing.parsePdf);
 
@@ -25,7 +29,7 @@ router.post('/upload' ,upload.single('file') ,async(req:any,res) => {
         }
 
         const uploadedFile = await uploadFile(req.file!);
-        const parsedText = await PdfParsing.parsePdf(req.file?.buffer!)
+        const parsedText = await extractTextFromPdf(req.file?.buffer!)
 
         const newData = await prisma.file.create({
             data:{
