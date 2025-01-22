@@ -14,25 +14,23 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
   email     String   @unique
-  username  String   @unique @db.VarChar(191)
-  oauthId   String
-  count     Int     @default(0)
+  data      File[]
+  count     Int      @default(0)
   createdAt DateTime @default(now())
-  files     File[]
-
-  @@index([createdAt])
-  @@map("users")
+  updatedAt DateTime @updatedAt
 }
 
 model File {
-  id       String      @id @default(uuid())
-  file     Json
-  text     String
-  user     User     @relation(fields: [userId], references: [id])
-  userId   Int
+  id        String   @id @default(uuid())
+  file      Json
+  text      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
   createdAt DateTime @default(now())
-  
+
   @@map("files")
 }

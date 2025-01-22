@@ -1,86 +1,105 @@
 import { Router } from "express";
-// import UploadController from "../Controllers/UploadController.js";
-// import upload from "../middleware/multerConfig.js";
 import { extractTextFromPdf } from "../Controllers/PdfParsing.js";
 import prisma from "../prisma/index.js";
 import { nlpService } from "../Controllers/NlpController.js";
 import { uploadFile } from "../Controllers/UploadController.js";
 import multer from "multer";
+import { authMiddleware } from "../middleware/authmiddleware.js";
 
 export const router = Router();
 
-const upload = multer({storage: multer.memoryStorage()})
+const upload = multer({ storage: multer.memoryStorage() });
 
-
-// router.post("/upload", upload.single("file"), UploadController.upload, PdfParsing.parsePdf);
-
-router.post('/upload' ,upload.single('file') ,async(req:any,res) => {
-    const userId = req.userId;
+// Upload route
+router.post('/upload', authMiddleware, upload.single('file'), async (req: any, res) => {
+    const userId = req.userId;  // Assuming this is set from a middleware or authentication
     try {
-        if(!req.file){
-            res.status(400).json({
+        if (!req.file) {
+            return res.status(400).json({
                 message: "No file provided"
-            })
+            });
         }
-        if(!req.file?.mimetype || !req.file.mimetype.includes('pdf')){
-            res.status(400).json({
-                message: "Please uplaod a pdf file"
-            })
+
+        if (!req.file?.mimetype || !req.file.mimetype.includes('pdf')) {
+            return res.status(400).json({
+                message: "Please upload a PDF file"
+            });
+        }
+
+        if (!req.user?.id) {
+            return res.status(400).json({
+                message: "User not authenticated"
+            });
         }
 
         const uploadedFile = await uploadFile(req.file!);
-        const parsedText = await extractTextFromPdf(req.file?.buffer!)
+        const parsedText = await extractTextFromPdf(req.file?.buffer!);
 
         const newData = await prisma.file.create({
-            data:{
+            data: {
                 text: parsedText!,
-                file:uploadedFile,
-                user:{
-                    connect:{
-                        id: userId
-                    }
-                }
+                file: uploadedFile,  // The uploaded file object as JSON
+                user: {
+                    connect: {
+                        id: req.user.id,  // Ensure that req.user.id is valid
+                    },
+                },
             }
-        })
+        });
 
         res.status(200).json({
             data: {
                 savedData: newData
             },
-            message: "Upload service is working sucessfully"
-        })
-    } catch (error) {   
+            message: "Upload service is working successfully"
+        });
+    } catch (error) {
         console.log("Error: ", error);
+        res.status(500).json({
+            message: "Internal server error"
+        });
     }
-})
+});
 
-router.get('/nlp/:dataId', async(req:any,res) => {
-    const {dataId} = req.params;
-    const userId = req.userId;
+// NLP route
+router.get('/nlp/:dataId', async (req: any, res) => {
+    const { dataId } = req.params;
+    const userId = req.userId;  // Assuming this is set from a middleware or authentication
     try {
+        if (!userId) {
+            return res.status(400).json({
+                message: "User not authenticated"
+            });
+        }
 
         const data = await prisma.file.findUnique({
-            where:{
+            where: {
                 id: dataId,
-                userId: userId
-            }, 
-            include:{
+                userId: userId  // Ensure the file belongs to the authenticated user
+            },
+            include: {
                 user: true
             }
         });
 
-        const text = data?.text;
-        console.log(text);
-        const nlpResult = await nlpService(text!);
-        
+        if (!data) {
+            return res.status(404).json({
+                message: "File not found"
+            });
+        }
+
+        const text = data.text;
+        const nlpResult = await nlpService(text);
+
         res.status(200).json({
             message: "NLP Service success",
             data: nlpResult
-        })
-        
+        });
+
     } catch (error) {
+        console.log("Error: ", error);
         res.status(500).json({
-            message: error
-        })
+            message: "Internal server error"
+        });
     }
-})
+});
