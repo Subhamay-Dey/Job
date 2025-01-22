@@ -61,10 +61,9 @@ router.post('/upload', authMiddleware, upload.single('file'), async (req: any, r
     }
 });
 
-// NLP route
 router.get('/nlp/:dataId', authMiddleware, async (req: any, res) => {
     const { dataId } = req.params;
-    const userId = req.userId;  // Assuming this is set from a middleware or authentication
+    const userId = req.userId;
     try {
         if (!userId) {
             return res.status(400).json({
@@ -75,7 +74,7 @@ router.get('/nlp/:dataId', authMiddleware, async (req: any, res) => {
         const data = await prisma.file.findUnique({
             where: {
                 id: dataId,
-                userId: userId  // Ensure the file belongs to the authenticated user
+                userId: userId
             },
             include: {
                 user: true
@@ -89,7 +88,6 @@ router.get('/nlp/:dataId', authMiddleware, async (req: any, res) => {
         }
 
         const text = data.text;
-        console.log("Text: ", text);
         
         const nlpResult = await nlpService(text);
 

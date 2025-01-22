@@ -6,6 +6,12 @@ import { router } from "./routes/index.js";
 const app: Application = express();
 const PORT = process.env.PORT || 7000;
 
+app.use(cors({
+  origin: ['http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true
+}));
+
 // * Middleware
 app.use(cors());
 app.use(express.json());
