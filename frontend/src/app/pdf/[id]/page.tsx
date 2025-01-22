@@ -30,7 +30,7 @@ export default function Form() {
     const fetchNlpData = async () => {
       try {
         const token = sessionStorage.getItem("authToken")
-        const response = await fetch(`https://localhost:8000/api/nlp/${id}`, {
+        const response = await fetch(`https://parsepro-1.onrender.com/api/nlp/${id}`, {
           headers: { Authorization: token || '' }
         })
         
