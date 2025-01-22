@@ -24,7 +24,7 @@ export default function SignUp() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("https://formai-mwwx.onrender.com/api/v1/signup", {
+      const response = await fetch("https://localhost:8000/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
