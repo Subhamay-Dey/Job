@@ -3,8 +3,6 @@ import jwt from "jsonwebtoken";
 import { SigniInSchema, SignupSchema } from "../validations/validation";
 import prisma from "../prisma";
 
-export const JWT_PASSWORD = "jkjkdsjkdsjkd67%$$%%^&*7889";
-
 export const signUp = async (req: any, res: any) => {
   const { username, email, password } = SignupSchema.parse(req.body);
   if (!username || !password || !email) {
@@ -76,7 +74,7 @@ export const signIn = async (req: any, res: any) => {
         {
           userId: user.id,
         },
-        JWT_PASSWORD
+        process.env.JWT_SECRET!
       );
 
       return res.status(200).json({

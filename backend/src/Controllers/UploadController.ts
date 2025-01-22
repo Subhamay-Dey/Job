@@ -80,7 +80,7 @@ interface UploadFile {
     try {  
       const fileName = `${Date.now()}-${file.originalname}`;  
       
-      const { data, error } = await supabase.storage  
+      const { data, error } = await supabase.storage 
         .from('Pdf')  
         .upload(fileName, file.buffer, {  
           contentType: file.mimetype,  
@@ -99,8 +99,8 @@ interface UploadFile {
         .getPublicUrl(fileName);  
   
       return {  
-        fileName,  
-        publicUrl,  
+        filename: fileName,  
+        Url: publicUrl,  
         originalName: file.originalname  
       };  
     } catch (error) {  

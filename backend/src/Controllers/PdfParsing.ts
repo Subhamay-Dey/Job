@@ -17,7 +17,7 @@
 
 import pdf from 'pdf-parse';
 
-export async function extractTextFromPdf(buffer:Buffer) {
+export async function pdfParsing(buffer:Buffer) {
     try {
         const data = await pdf(buffer);
         return data.text;

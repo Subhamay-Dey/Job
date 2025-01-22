@@ -1,8 +1,11 @@
+import SignIn from '@/auth/SignIn'
 import React from 'react'
 
 function Home() {
   return (
-    <div>Home</div>
+    <div>
+      <SignIn/>
+    </div>
   )
 }
 

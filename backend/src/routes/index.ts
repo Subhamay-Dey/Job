@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { extractTextFromPdf } from "../Controllers/PdfParsing.js";
+import { pdfParsing } from "../Controllers/PdfParsing.js";
 import prisma from "../prisma/index.js";
 import { nlpService } from "../Controllers/NlpController.js";
 import { uploadFile } from "../Controllers/UploadController.js";
@@ -11,9 +11,8 @@ export const router = Router();
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Upload route
 router.post('/upload', authMiddleware, upload.single('file'), async (req: any, res) => {
-    const userId = req.userId;  // Assuming this is set from a middleware or authentication
+    const userId = req.userId;
     try {
         if (!req.file) {
             return res.status(400).json({
@@ -27,14 +26,14 @@ router.post('/upload', authMiddleware, upload.single('file'), async (req: any, r
             });
         }
 
-        if (!req.user?.id) {
+        if (!userId) {
             return res.status(400).json({
                 message: "User not authenticated"
             });
         }
 
         const uploadedFile = await uploadFile(req.file!);
-        const parsedText = await extractTextFromPdf(req.file?.buffer!);
+        const parsedText = await pdfParsing(req.file?.buffer!);
 
         const newData = await prisma.file.create({
             data: {
@@ -42,7 +41,7 @@ router.post('/upload', authMiddleware, upload.single('file'), async (req: any, r
                 file: uploadedFile,  // The uploaded file object as JSON
                 user: {
                     connect: {
-                        id: req.user.id,  // Ensure that req.user.id is valid
+                        id: userId,  // Ensure that req.user.id is valid
                     },
                 },
             }
@@ -90,6 +89,8 @@ router.get('/nlp/:dataId', authMiddleware, async (req: any, res) => {
         }
 
         const text = data.text;
+        console.log("Text: ", text);
+        
         const nlpResult = await nlpService(text);
 
         res.status(200).json({
