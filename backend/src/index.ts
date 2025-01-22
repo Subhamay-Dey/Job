@@ -7,7 +7,7 @@ const app: Application = express();
 const PORT = process.env.PORT || 7000;
 
 app.use(cors({
-  origin: ['http://localhost:3000', "https://parse-pro.vercel.app/"],
+  origin: ['http://localhost:3000', "https://parse-pro.vercel.app"],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
