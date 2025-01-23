@@ -43,10 +43,9 @@ import {
   
     const result = await chatSession.sendMessage(text);
     const response = await result.response;
-  
-    // Clean up and parse the returned JSON string
+
     const cleanedData = response.text().replace(/```json|```/g, '').trim();
-    const parsedData = JSON.parse(cleanedData); // Parse JSON string into an object
+    const parsedData = JSON.parse(cleanedData);
   
-    return parsedData; // Return the parsed JSON object
+    return parsedData;
   }
