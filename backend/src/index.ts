@@ -1,10 +1,12 @@
-import express, { Application, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import "dotenv/config";
 import cors from "cors";
 import { router } from "./routes/index.js";
 
-const app: Application = express();
+const app = express();
 const PORT = process.env.PORT || 7000;
+
+app.use(express.json());
 
 app.use(cors({
   origin: function(origin, callback){
@@ -24,8 +26,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req: Request, res: Response) => {
   return res.send("It's working 🙌");
