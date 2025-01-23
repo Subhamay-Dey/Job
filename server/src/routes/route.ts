@@ -11,7 +11,7 @@ export const router = Router();
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-router.post('/upload', authMiddleware, upload.single('file'), async (req:any, res:any) => {
+router.post('/upload', authMiddleware, upload.single('file'), async (req: any, res:any) => {
     const userId = req.userId;
     try {
         if (!req.file) {
@@ -38,10 +38,10 @@ router.post('/upload', authMiddleware, upload.single('file'), async (req:any, re
         const newData = await prisma.file.create({
             data: {
                 text: parsedText!,
-                file: uploadedFile, 
+                file: uploadedFile,  // The uploaded file object as JSON
                 user: {
                     connect: {
-                        id: userId,
+                        id: userId,  // Ensure that req.user.id is valid
                     },
                 },
             }

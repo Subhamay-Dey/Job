@@ -30,8 +30,10 @@
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/multer": "^1.4.12",
     "concurrently": "^9.1.2",
     "nodemon": "^3.1.9",
+    "prisma": "^6.2.1",
     "typescript": "^5.7.3"
   }
 }

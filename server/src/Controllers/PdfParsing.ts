@@ -7,5 +7,4 @@ export async function pdfParsing(buffer:Buffer) {
     } catch (error) {
         console.log('Pdf parsing error:', error);
     }
-
 }

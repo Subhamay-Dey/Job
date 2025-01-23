@@ -42,6 +42,7 @@ export const signUp = async (req: any, res: any) => {
     }
   }
 };
+
 export const signIn = async (req: any, res: any) => {
   const { username, password } = SigniInSchema.parse(req.body);
 
