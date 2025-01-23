@@ -9,10 +9,10 @@ const PORT = process.env.PORT || 7000;
 app.use(cors({
   origin: ['http://localhost:3000', "https://parse-pro.vercel.app"],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
-// * Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

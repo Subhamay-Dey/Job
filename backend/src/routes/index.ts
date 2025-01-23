@@ -109,7 +109,6 @@ router.post("/signup",signUp)
 router.post("/signin",signIn)
 
 router.get("/logout", (req, res) => {
-    //invalidating the token by clearing the cookie
     res.clearCookie("token");
     res.status(200).json({
         message: "User logged out successfully"
