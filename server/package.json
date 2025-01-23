@@ -4,7 +4,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./dist/index.js",
+    "server": "nodemon ./dist/index.js",
+    "watch": "tsc -w",
+    "build": "npm install && tsc -b && npx prisma generate",
+    "dev": "concurrently \"npm run watch\" \"npm run server\""
   },
   "keywords": [],
   "author": "",
@@ -18,6 +22,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "concurrently": "^9.1.2",
     "nodemon": "^3.1.9",
     "typescript": "^5.7.3"
   }
