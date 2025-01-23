@@ -25,6 +25,7 @@ export default function SignIn() {
     try {
       const response = await fetch("https://parsepro-1.onrender.com/api/signin", {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
