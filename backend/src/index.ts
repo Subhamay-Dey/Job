@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
+const express = require("express");
+const cors = require("cors");
 import "dotenv/config";
-import cors from "cors";
 import { router } from "./routes/index.js";
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.use((req, res, next) => {
+app.use((req:any, res:any, next:any) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 
 // app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (req:any, res:any) => {
   return res.send("It's working 🙌");
 });
 
