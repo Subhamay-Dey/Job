@@ -2,13 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "start": "node ./dist/index.js",
-    "server": "nodemon ./dist/index.js",
-    "watch": "tsc -w",
-    "build": "npm install && tsc -b && npx prisma generate",
-    "dev": "concurrently \"npm run watch\" \"npm run server\""
+    "start": "nodemon dist/index.js",
+    "build": "tsc -b && npx prisma generate"
   },
   "keywords": [],
   "author": "",
@@ -22,7 +19,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "jsonwebtoken": "^9.0.2",
     "pdf-parse": "^1.1.1",
     "zod": "^3.24.1"
   },

@@ -36,7 +36,7 @@ class FileUpload {
             }
 
         } catch (error) {
-            console.error(error.message);
+            console.log(error);
             throw new Error('Failed to upload file to storage');  
         }
 
@@ -53,7 +53,7 @@ class FileUpload {
             }
 
         } catch (error) {
-            console.error(error.message);
+            console.log(error);
             throw new Error("Failed to get public URL");
         }
     }
