@@ -10,3 +10,5 @@ class PdfParsing {
         }
     }
 }
+
+export default PdfParsing

@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { pdfParsing } from "../Controllers/PdfParsing.js";
 import prisma from "../prisma/prisma.js";
 import { nlpService } from "../Controllers/NlpCoontroller.js";
 import { uploadFile } from "../Controllers/UploadController.js";
 import multer from "multer";
 import { authMiddleware } from "../middlewares/authmiddleware.js";
 import { signIn, signUp } from "../auth/auth.js";
+import PdfParse from "pdf-parse";
+import PdfParsing from "../Controllers/PdfParsing.js";
 
 export const router = Router();
 
@@ -33,7 +34,7 @@ router.post('/upload', authMiddleware, upload.single('file'), async (req: any, r
         }
 
         const uploadedFile = await uploadFile(req.file!);
-        const parsedText = await pdfParsing(req.file?.buffer!);
+        const parsedText = await PdfParsing.parse(req.file?.buffer!);
 
         const newData = await prisma.file.create({
             data: {
