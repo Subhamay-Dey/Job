@@ -27,8 +27,11 @@ class FileUpload {
                 throw error;
             }
 
+            const publicurl = await FileUpload.url(filename)
+
             return {
                 filename: filename,
+                url: publicurl,
                 originalname: originalname,
             }
 
