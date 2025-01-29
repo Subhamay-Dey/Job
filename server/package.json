@@ -4,8 +4,11 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "nodemon dist/index.js",
-    "build": "tsc -b && npx prisma generate"
+    "start": "node dist/index.js",
+    "build": "npm install && tsc -b && npx prisma generate",
+    "watch": "tsc -w",
+    "server": "nodemon dist/index.js",
+    "dev": "concurrently \"npm run watch\" \"npm run server\""
   },
   "keywords": [],
   "author": "",
