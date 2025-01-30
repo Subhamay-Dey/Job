@@ -4,6 +4,7 @@ import { authMiddleware } from "../middlewares/authmiddleware.js";
 import { signIn, signUp } from "../auth/auth.js";
 import Upload from "../main/Upload.js";
 import Nlp from "../main/Nlp.js";
+import Logout from "../main/Logout.js";
 
 export const router = Router();
 
@@ -17,9 +18,4 @@ router.post("/signup",signUp)
 
 router.post("/signin",signIn)
 
-router.get("/logout", (req, res) => {
-    res.clearCookie("token");
-    res.status(200).json({
-        message: "User logged out successfully"
-    })
-});
+router.get("/logout", Logout.logout);
