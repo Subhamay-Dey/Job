@@ -1,13 +1,10 @@
 import { Router } from "express";
 import prisma from "../prisma/prisma.js";
 import { nlpService } from "../Controllers/NlpCoontroller.js";
-import { uploadFile } from "../Controllers/UploadController.js";
 import multer from "multer";
 import { authMiddleware } from "../middlewares/authmiddleware.js";
 import { signIn, signUp } from "../auth/auth.js";
-import PdfParse from "pdf-parse";
-import PdfParsing from "../Controllers/PdfParsing.js";
-import Upload from "../Controllers/Upload.js";
+import Upload from "../main/Upload.js";
 
 export const router = Router();
 

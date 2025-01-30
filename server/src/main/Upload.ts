@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
-import FileUpload from "./FileUpload.js";
-import PdfParsing from "./PdfParsing.js";
+import FileUpload from "../Controllers/FileUpload.js";
+import PdfParsing from "../Controllers/PdfParsing.js";
 import prisma from "../prisma/prisma.js";
 
 class Upload {
@@ -31,10 +31,10 @@ class Upload {
             const newData = await prisma.file.create({
                 data: {
                     text: parsedText!,
-                    file: uploadedFile,  // The uploaded file object as JSON
+                    file: uploadedFile,
                     user: {
                         connect: {
-                            id: userId,  // Ensure that req.user.id is valid
+                            id: userId,
                         },
                     },
                 }
