@@ -43,7 +43,7 @@ export default function UploadForm() {
         return
       }
 
-      const response = await fetch("https://formai-mwwx.onrender.com/api/v1/upload", {
+      const response = await fetch("https://localhost:8000/api/upload", {
         method: "POST",
         body: formData,
         headers: {

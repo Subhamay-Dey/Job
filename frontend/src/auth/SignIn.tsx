@@ -23,7 +23,7 @@ export default function SignIn() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("https://localhost:8000/api/signin", {
+      const response = await fetch("http://localhost:8000/api/signin", {
         method: "POST",
         credentials: 'include',
         headers: {
@@ -46,9 +46,14 @@ export default function SignIn() {
 
       router.push("/upload")
     } catch (err) {
-      setError(err as string)
-    } finally {
-      setIsLoading(false)
+        if (err instanceof Error) {
+          setError(err.message)
+        } else {
+          setError("An unknown error occurred")
+        }
+      } 
+      finally {
+        setIsLoading(false)
     }
   }
 
