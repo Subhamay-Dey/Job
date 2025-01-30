@@ -59,13 +59,16 @@ export default function UploadForm() {
       const result = await response.json()
       setUploadProgress(100)
       
-      // Small delay to show completion before redirect
       setTimeout(() => {
         router.push(`/form/${result.data.savedData.id}`)
       }, 500)
 
     } catch (error) {
-      setError(error as string)
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError("An unknown error occurred")
+      }
       setUploadProgress(0)
     } finally {
       setIsLoading(false)

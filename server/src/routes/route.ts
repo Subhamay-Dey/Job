@@ -1,7 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
 import { authMiddleware } from "../middlewares/authmiddleware.js";
-import { signIn, signUp } from "../auth/auth.js";
 import Upload from "../main/Upload.js";
 import Nlp from "../main/Nlp.js";
 import Logout from "../main/Logout.js";

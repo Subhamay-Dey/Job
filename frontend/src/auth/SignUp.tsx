@@ -45,7 +45,11 @@ export default function SignUp() {
 
       router.push("/")
     } catch (err) {
-      setError(err as string)
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError("An unknown error occurred")
+      }
     } finally {
       setIsLoading(false)
     }

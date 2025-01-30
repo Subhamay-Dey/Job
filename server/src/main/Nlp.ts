@@ -12,6 +12,8 @@ class Nlp {
                 });
             }
 
+            console.log(dataId);
+
             const user = await prisma.user.findUnique({
                 where: {
                     id: userId
@@ -27,20 +29,18 @@ class Nlp {
             const data = await prisma.file.findUnique({
                 where: {
                     id: dataId,
-                    userId: userId
+                    userId: userId,
                 },
-                // include: {
-                //     user: true
-                // }
-            });
-    
+                
+            })
+
             if (!data) {
                 return res.status(404).json({
                     message: "File not found"
                 });
             }
-    
-            const text = data.text;
+
+            const text = data?.text!;
             
             const nlpResult = await NlpService.processText(text);
     
