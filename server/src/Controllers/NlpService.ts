@@ -2,26 +2,26 @@ import {GoogleGenerativeAI} from "@google/generative-ai";
 import dotenv from 'dotenv';
 dotenv.config();
 
-class Nlp{
+class NlpService{
 
-    private apiKey: string;
-    private genAI: GoogleGenerativeAI;
-    private model: any;
-    private generationConfig: Record<string, any>;
+    static apiKey: string;
+    static genAI: GoogleGenerativeAI;
+    static generationConfig: Record<string, any>;
+    static model: any;
 
     constructor() {
-        this.apiKey = process.env.GEMINI_KEY!;
-        if (!this.apiKey) {
+        NlpService.apiKey = process.env.GEMINI_KEY!;
+        if (NlpService.apiKey) {
           throw new Error("API key for Google Generative AI is missing.");
         }
     
-        this.genAI = new GoogleGenerativeAI(this.apiKey);
+        NlpService.genAI = new GoogleGenerativeAI(NlpService.apiKey);
     
-        this.model = this.genAI.getGenerativeModel({
+        NlpService.model = NlpService.genAI.getGenerativeModel({
           model: "gemini-1.5-flash",
         });
     
-        this.generationConfig = {
+        NlpService.generationConfig = {
           temperature: 1,
           topP: 0.95,
           topK: 40,
@@ -29,10 +29,10 @@ class Nlp{
         };
       }    
 
-    public async processText(text: string): Promise<any> {
+    static async processText(text: string): Promise<any> {
         try {
-          const chatSession = this.model.startChat({
-            generationConfig: this.generationConfig,
+          const chatSession = NlpService.model.startChat({
+            generationConfig: NlpService.generationConfig,
             history: [
               {
                 role: "user",
@@ -65,4 +65,4 @@ class Nlp{
       }
 }
 
-export default Nlp
+export default NlpService

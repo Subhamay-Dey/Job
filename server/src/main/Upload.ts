@@ -1,4 +1,3 @@
-import { Request, Response } from "express"
 import FileUpload from "../Controllers/FileUpload.js";
 import PdfParsing from "../Controllers/PdfParsing.js";
 import prisma from "../prisma/prisma.js";
