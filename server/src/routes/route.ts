@@ -6,6 +6,7 @@ import Upload from "../main/Upload.js";
 import Nlp from "../main/Nlp.js";
 import Logout from "../main/Logout.js";
 import Signup from "../auth/Signup.js";
+import SignIn from "../auth/SignIn.js";
 
 export const router = Router();
 
@@ -17,6 +18,6 @@ router.get('/nlp/:dataId', authMiddleware, Nlp.nlp);
 
 router.post("/signup", Signup.signup)
 
-router.post("/signin",signIn)
+router.post("/signin", SignIn.signin)
 
 router.get("/logout", Logout.logout);
